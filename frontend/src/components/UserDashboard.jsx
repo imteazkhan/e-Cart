@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import './UserDashboard.css';
 
 const UserDashboard = () => {
+  const { user, loading } = useAuth();
+  
   const [userData, setUserData] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
+    name: user?.name || 'John Doe',
+    email: user?.email || 'john.doe@example.com',
     password: ''
   });
 
   const [activeMenu, setActiveMenu] = useState('dashboard');
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Add a helper function to format currency with thousand separators
+  const formatBDT = (amount) => {
+    // Format the number with commas as thousand separators and 2 decimal places
+    return amount.toLocaleString('en-BD', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  };
 
   const orders = [
     {
@@ -85,14 +107,7 @@ const UserDashboard = () => {
     return config.class;
   };
 
-  // Add a helper function to format currency with thousand separators
-  const formatBDT = (amount) => {
-    // Format the number with commas as thousand separators and 2 decimal places
-    return amount.toLocaleString('en-BD', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-  };
+
 
   return (
     <div className="user-dashboard">

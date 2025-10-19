@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px 20px; margin: 5px; }
+        #result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; min-height: 100px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>API Connection Test</h1>
+    <button onclick="testXAMPP()">Test XAMPP API</button>
+    <button onclick="testRegister()">Test Register</button>
+    <button onclick="testCORS()">Test CORS</button>
+    <div id="result"></div>
+
+    <script>
+        async function testXAMPP() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing XAMPP API...';
+            resultDiv.className = '';
+            
+            try {
+                console.log('Testing XAMPP API...');
+                const response = await fetch('http://localhost/Imteaz/Lara+react/e-Cart/backend/public/api/test', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<h3>✅ XAMPP API Success!</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    resultDiv.className = 'success';
+                } else {
+                    resultDiv.innerHTML = `<h3>❌ XAMPP API Failed</h3><p>Status: ${response.status} ${response.statusText}</p>`;
+                    resultDiv.className = 'error';
+                }
+            } catch (error) {
+                console.error('XAMPP API Error:', error);
+                resultDiv.innerHTML = `<h3>❌ XAMPP API Error</h3><p>${error.message}</p>`;
+                resultDiv.className = 'error';
+            }
+        }
+
+        async function testRegister() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing Register API...';
+            resultDiv.className = '';
+            
+            try {
+                const timestamp = Date.now();
+                const response = await fetch('http://localhost/Imteaz/Lara+react/e-Cart/backend/public/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: `test${timestamp}@example.com`,
+                        password: 'password123',
+                        password_confirmation: 'password123'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<h3>✅ Register API Success!</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    resultDiv.className = 'success';
+                } else {
+                    const errorData = await response.text();
+                    resultDiv.innerHTML = `<h3>❌ Register API Failed</h3><p>Status: ${response.status}</p><pre>${errorData}</pre>`;
+                    resultDiv.className = 'error';
+                }
+            } catch (error) {
+                console.error('Register API Error:', error);
+                resultDiv.innerHTML = `<h3>❌ Register API Error</h3><p>${error.message}</p>`;
+                resultDiv.className = 'error';
+            }
+        }
+
+        async function testCORS() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing CORS...';
+            resultDiv.className = '';
+            
+            try {
+                const response = await fetch('http://localhost/Imteaz/Lara+react/e-Cart/backend/public/api/test', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Origin': 'http://localhost:5173'
+                    }
+                });
+                
+                const corsHeaders = {
+                    'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+                    'Access-Control-Allow-Methods': response.headers.get('Access-Control-Allow-Methods'),
+                    'Access-Control-Allow-Headers': response.headers.get('Access-Control-Allow-Headers'),
+                    'Vary': response.headers.get('Vary')
+                };
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<h3>✅ CORS Test Success!</h3><h4>Response:</h4><pre>${JSON.stringify(data, null, 2)}</pre><h4>CORS Headers:</h4><pre>${JSON.stringify(corsHeaders, null, 2)}</pre>`;
+                    resultDiv.className = 'success';
+                } else {
+                    resultDiv.innerHTML = `<h3>❌ CORS Test Failed</h3><p>Status: ${response.status}</p><h4>CORS Headers:</h4><pre>${JSON.stringify(corsHeaders, null, 2)}</pre>`;
+                    resultDiv.className = 'error';
+                }
+            } catch (error) {
+                console.error('CORS Test Error:', error);
+                resultDiv.innerHTML = `<h3>❌ CORS Test Error</h3><p>${error.message}</p>`;
+                resultDiv.className = 'error';
+            }
+        }
+    </script>
+</body>
+</html>

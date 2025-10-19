@@ -1,43 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
 import './ShoppingCart.css';
 
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "T-Shirt - Blue, Large",
-      price: 25.00,
-      quantity: 1,
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCyCQWXoQoxummR9zfbneR6l7C0Anth0Sz3SML2HUPCXwc8lxEXlABmwnGP-LwK5cBojSBslRb68_avJCS7fbKTrkjFY0rvDXt5ogD1e9jZlxjhVon4e9Z4HumTGeonuuhjAo11s3GsfFVtvI5i2cop2Hb548CUrzeysnYAzwcbTc-zvptHBN9xRd6cOH33cgAJF-P5mDv2L-6mRYDxKuXpCtOLbk4sj51WEHd8pUTuQTr1mAYBQib2KQoa8H-E6kjJDyn4PG7dmAgU",
-      alt: "A blue t-shirt with a minimalist design.",
-      inStock: true
-    },
-    {
-      id: 2,
-      name: "Classic Leather Wallet",
-      price: 45.00,
-      quantity: 1,
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBGvWhS4aGXH62ZwJB3Nc7pqNYEznCUagg7SC_pqgnHxBBJKANhStFqd2D6KegifK_xuuRr4r5phIH7UDMxKv2CxMvrnWwp49wBAlvJzTTCK91b3znIjBsGJxLyPQ1dqL029GhQ9LYRw0L8XChwxme2FJZ6iPm9bcDa0Dp1kj8BFRQr4rHXmhMUFWXnG47EKpTmOPESFNY8nlcXoVASRVNYulMtugMlAp5kmDAkbxF9Tz9-_qJU-HrHgRG8z4GYivgWbkOwoiLs0xGq",
-      alt: "A classic brown leather wallet, open to show its compartments.",
-      inStock: true
-    }
-  ]);
-
+  const { cartItems, updateQuantity, removeFromCart } = useCart();
   const [promoCode, setPromoCode] = useState('');
   const navigate = useNavigate();
-
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    
-    setCartItems(cartItems.map(item => 
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    ));
-  };
-
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-  };
 
   const calculateSubtotal = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
@@ -94,7 +63,7 @@ const ShoppingCart = () => {
                     key={item.id}
                     item={item}
                     onUpdateQuantity={updateQuantity}
-                    onRemove={removeItem}
+                    onRemove={removeFromCart}
                   />
                 ))}
               </div>
@@ -167,7 +136,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
         <div className="item-image">
           <img
             src={item.image}
-            alt={item.alt}
+            alt={item.alt || item.name}
           />
         </div>
         <div className="item-details">

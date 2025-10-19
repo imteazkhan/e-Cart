@@ -1,249 +1,27 @@
 .ecommerce-home {
   min-height: 100vh;
-}
-
-/* Header Styles */
-.ecommerce-header {
-  position: sticky;
-  top: 0;
-  background: rgba(255, 255, 255, 0.192);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid #dee2e6;
-  padding: 0.5rem 0;
-  z-index: 1000;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #333;
-  min-width: 0;
-}
-
-.logo-icon {
-  width: 2rem;
-  height: 2rem;
-  color: #3A86FF;
-  flex-shrink: 0;
-}
-
-.logo h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.main-nav {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-/* Mobile menu toggle */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-}
-
-.menu-toggle span {
   width: 100%;
-  height: 3px;
-  background: #333;
-  border-radius: 10px;
-  transition: all 0.3s linear;
-  position: relative;
-  transform-origin: center;
+  overflow: visible;
 }
 
-.menu-toggle.active span:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
-}
-
-.menu-toggle.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.menu-toggle.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
+main {
+  overflow: visible;
+  height: auto;
+  padding-top: 3rem;
 }
 
 /* Mobile styles */
 @media (max-width: 767.98px) {
-  .menu-toggle {
-    display: flex;
+  main {
+    padding-top: 4rem;
   }
-  
-  .main-nav {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 70%;
-    height: 100vh;
-    background: white;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 5rem 2rem 2rem;
-    transition: right 0.3s ease-in-out;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 9;
-  }
-  
-  .main-nav.active {
-    right: 0;
-  }
-  
-  .main-nav a {
-    padding: 1rem 0;
-    font-size: 1.125rem;
-    width: 100%;
-    border-bottom: 1px solid #eee;
-  }
-  
-  /* Overlay for mobile menu */
-  .menu-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 8;
-  }
-  
-  .menu-overlay.active {
-    display: block;
-  }
-}
-
-.main-nav a {
-  text-decoration: none;
-  color: #333;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: color 0.3s;
-  white-space: nowrap;
-}
-
-.main-nav a:hover {
-  color: #3A86FF;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.search-box {
-  position: relative;
-  display: none;
-}
-
-@media (min-width: 576px) {
-  .search-box {
-    display: block;
-  }
-}
-
-.search-box span {
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #6c757d;
-}
-
-.search-box input {
-  padding-left: 2.5rem;
-  padding-right: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #dee2e6;
-  width: 150px;
-  height: 2.5rem;
-  font-size: 0.875rem;
-}
-
-@media (min-width: 768px) {
-  .search-box input {
-    width: 200px;
-  }
-}
-
-@media (min-width: 992px) {
-  .search-box input {
-    width: 250px;
-  }
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 50%;
-  color: #333;
-  transition: background-color 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  flex-shrink: 0;
-}
-
-.icon-btn:hover {
-  background-color: #f8f9fa;
-}
-
-.cart-btn {
-  position: relative;
-}
-
-.cart-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: #3A86FF;
-  color: white;
-  border-radius: 50%;
-  width: 1rem;
-  height: 1rem;
-  font-size: 0.625rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Hero Section */
 .hero-section {
   background: #f8f9fa;
   padding: 3rem 0;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -255,6 +33,7 @@
 .hero-content {
   text-align: center;
   padding: 0 1rem;
+  width: 100%;
 }
 
 .hero-content h1 {
@@ -307,6 +86,7 @@
 /* Section Styles */
 .section {
   padding: 2rem 0;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -337,10 +117,11 @@
 .products-scroll {
   display: flex;
   gap: 1rem;
-  overflow-x: hidden;
+  overflow-x: auto;
   padding-bottom: 1rem;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  width: 100%;
 }
 
 @media (min-width: 576px) {
@@ -444,6 +225,7 @@
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
+  width: 100%;
 }
 
 @media (min-width: 576px) {
@@ -518,6 +300,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   align-items: center;
+  width: 100%;
 }
 
 @media (min-width: 576px) {
@@ -560,6 +343,7 @@
 .newsletter-section {
   background: rgba(58, 134, 255, 0.1);
   padding: 2rem 0;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -571,6 +355,7 @@
 .newsletter-content {
   text-align: center;
   padding: 0 1rem;
+  width: 100%;
 }
 
 .newsletter-content h2 {
@@ -618,6 +403,7 @@
   justify-content: center;
   max-width: 400px;
   margin: 0 auto;
+  width: 100%;
 }
 
 @media (min-width: 576px) {
@@ -655,6 +441,7 @@
 .ecommerce-footer {
   background: #f8f9fa;
   padding: 2rem 0 1rem;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -668,6 +455,7 @@
   flex-direction: column;
   gap: 2rem;
   margin-bottom: 2rem;
+  width: 100%;
 }
 
 @media (min-width: 992px) {
@@ -782,6 +570,11 @@
   font-size: 1.125rem;
 }
 
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
 /* Utility Classes */
 .sr-only {
   position: absolute;
@@ -800,6 +593,7 @@
   max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
+  position: relative;
 }
 
 @media (min-width: 576px) {
@@ -836,5 +630,16 @@
 @media (min-width: 992px) {
   .d-none-lg {
     display: none !important;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

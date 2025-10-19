@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
 import './ECommerceHome.css';
 
 // Add a helper function to format currency with thousand separators
@@ -13,74 +14,48 @@ const formatBDT = (amount) => {
 
 const ECommerceHome = () => {
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { addToCart, getCartCount } = useCart();
+  const [cartCount, setCartCount] = useState(0);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  // Close menu when clicking outside
+  // Update cart count when cart changes
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isMenuOpen && !event.target.closest('.main-nav') && !event.target.closest('.menu-toggle')) {
-        closeMenu();
-      }
-    };
+    setCartCount(getCartCount());
+  }, [getCartCount]);
 
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [isMenuOpen]);
+  // Sample products data
+  const sampleProducts = [
+    {
+      id: 1,
+      name: "Modern T-Shirt",
+      price: 29.99,
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDAvIsyoJo7e50xzP376QgnsKWrrfvyRLksiQb5vpyQ1hLqinlOPENMgVMaZ5Y_kyQkNf0EsqmWe93Y4WqN0VxPFLxHVUGrmfVSh-DHDf1E1WxLsXyHOoDJ-UFL7DCit6dLl1OUfMyhT0fVUah-jedRtqY28z_DV-hDdPInp9NgP5JvuyCROiDfL8rhZKdOt0DLi_Nkx3kYhvwxpjrnKgpOnggX4ACksN1Ta3s3FLG5LvK7BNuJWmwRhYbeGwwWHWw2ihYgT9sEIZc0",
+      alt: "Modern T-Shirt"
+    },
+    {
+      id: 2,
+      name: "Stylish Sneakers",
+      price: 89.99,
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDwGsOkqpHy-jwvAf9CoqAlDmaCJNARVwzHpcaesiQUwPk-QnfamaPBzw07ImIYOYQGYxJYFq--7-KI5rNMNb5P2YUyDdvpnG6iBBh8XUA6KDNoJFXUQSpMGcugVE1JDXCs-zW_ZWFesmbVNhHSqaGyh0bGwaESSfhKEy3fxr1Wpb3MfC7CO3WmqYSk1d4KXeZF8u2sFeUnjSoy-X15_SWwE_Ag7R17k-3MOeSz8IkO4Wmxpbd61vW5HqdhIsimWoUATc39xlEddUMu",
+      alt: "Stylish Sneakers"
+    },
+    {
+      id: 3,
+      name: "Sleek Watch",
+      price: 149.99,
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBiPvxSUOryHN6dU4xEH_bRF3dfv0Nk9Y4Qc8_3OyJeMt0qm2ETvsiycu528XZ0B181C81ACecaciOq80Plb-iTA-3kP9o4PSE4LN6UggdSjflDEt_5yq1sPptsA1cRNTgMy24ZXfS69jpS9kAa_idvWlSPE37fdeYFNz0aTBkE8sZUj0nDY84aqxEMB2B10H6O_Kc4ip0VdGEghHS90yDHbrWdrcCfw9tH6Cn8nSDKIiQ0sYRl19tBi9zEUsmaEOFGVzszeLFnpKil",
+      alt: "Sleek Watch"
+    },
+    {
+      id: 4,
+      name: "Versatile Backpack",
+      price: 49.99,
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDX30Z8FO-hQNrHxxbuYFZvW0DIuHGnKHGMXYrHpAP5Pq7Dv2m51GWHS8XyAJzNtnPB0PV5jn5FCwxQ5s4IlG8bV5qgLG63nHgHTx-H2_CbmwMrm65ewJ9mK9xMxC9Bfj4kYEj3AGSsAV0YW85gxDy5eXCzcwqspUM_k2pfRnryviIX2rhVjMLjwgZZHylncVJS8rVOuQJaQR55p39fDA0LZe_FkJk4Wxy_XW_fkTM2dngSJ_CBRr6J-qCR4OsPF6J460frJsrObAoc",
+      alt: "Versatile Backpack"
+    }
+  ];
 
   return (
     <div className="ecommerce-home">
-      {/* Header */}
-      <header className="ecommerce-header">
-        <div className="container">
-          <div className="header-content">
-            <div className="header-left">
-              <div className="logo">
-                <svg className="logo-icon" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
-                </svg>
-                <h2>E-Cart</h2>
-              </div>
-              <nav className={`main-nav ${isMenuOpen ? 'active' : ''}`}>
-                <a href="#">Shop</a>
-                <a href="#">New Arrivals</a>
-                <a href="#">Categories</a>
-              </nav>
-            </div>
-            <div className="header-right">
-              <div className="search-box">
-                <span className="material-symbols-outlined">search</span>
-                <input placeholder="Search products..." type="search"/>
-              </div>
-              <button className="icon-btn cart-btn" onClick={() => navigate('/ShoppingCart')}>
-                <span className="material-symbols-outlined">shopping_cart</span>
-                <span className="cart-badge">3</span>
-              </button>
-              <button className="icon-btn" onClick={() => navigate('/login')}>
-                <span className="material-symbols-outlined">person</span>
-              </button>
-              <button className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} onClick={toggleMenu}>
-                <span></span>
-                <span></span>
-                <span></span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-      
-      {/* Mobile menu overlay */}
-      <div className={`menu-overlay ${isMenuOpen ? 'active' : ''}`} onClick={closeMenu}></div>
-
       {/* Main Content */}
       <main>
         {/* Hero Section */}
@@ -90,7 +65,7 @@ const ECommerceHome = () => {
               <h1>Discover Our New Collection</h1>
               <p>Shop the latest trends and styles. Fresh looks, updated daily.</p>
               <div className="hero-actions">
-                <a className="btn btn-primary" href="#">Shop Now</a>
+                <a className="btn btn-primary btn-sm" href="#" onClick={(e) => { e.preventDefault(); navigate('/products'); }}>Shop Now</a>
               </div>
             </div>
           </div>
@@ -101,26 +76,13 @@ const ECommerceHome = () => {
           <div className="container">
             <h2 className="section-title">New Arrivals</h2>
             <div className="products-scroll">
-              <ProductCard 
-                image="https://lh3.googleusercontent.com/aida-public/AB6AXuDAvIsyoJo7e50xzP376QgnsKWrrfvyRLksiQb5vpyQ1hLqinlOPENMgVMaZ5Y_kyQkNf0EsqmWe93Y4WqN0VxPFLxHVUGrmfVSh-DHDf1E1WxLsXyHOoDJ-UFL7DCit6dLl1OUfMyhT0fVUah-jedRtqY28z_DV-hDdPInp9NgP5JvuyCROiDfL8rhZKdOt0DLi_Nkx3kYhvwxpjrnKgpOnggX4ACksN1Ta3s3FLG5LvK7BNuJWmwRhYbeGwwWHWw2ihYgT9sEIZc0"
-                name="Modern T-Shirt"
-                price={"৳" + formatBDT(29.99)}
-              />
-              <ProductCard 
-                image="https://lh3.googleusercontent.com/aida-public/AB6AXuDwGsOkqpHy-jwvAf9CoqAlDmaCJNARVwzHpcaesiQUwPk-QnfamaPBzw07ImIYOYQGYxJYFq--7-KI5rNMNb5P2YUyDdvpnG6iBBh8XUA6KDNoJFXUQSpMGcugVE1JDXCs-zW_ZWFesmbVNhHSqaGyh0bGwaESSfhKEy3fxr1Wpb3MfC7CO3WmqYSk1d4KXeZF8u2sFeUnjSoy-X15_SWwE_Ag7R17k-3MOeSz8IkO4Wmxpbd61vW5HqdhIsimWoUATc39xlEddUMu"
-                name="Stylish Sneakers"
-                price={"৳" + formatBDT(89.99)}
-              />
-              <ProductCard 
-                image="https://lh3.googleusercontent.com/aida-public/AB6AXuBiPvxSUOryHN6dU4xEH_bRF3dfv0Nk9Y4Qc8_3OyJeMt0qm2ETvsiycu528XZ0B181C81ACecaciOq80Plb-iTA-3kP9o4PSE4LN6UggdSjflDEt_5yq1sPptsA1cRNTgMy24ZXfS69jpS9kAa_idvWlSPE37fdeYFNz0aTBkE8sZUj0nDY84aqxEMB2B10H6O_Kc4ip0VdGEghHS90yDHbrWdrcCfw9tH6Cn8nSDKIiQ0sYRl19tBi9zEUsmaEOFGVzszeLFnpKil"
-                name="Sleek Watch"
-                price={"৳" + formatBDT(149.99)}
-              />
-              <ProductCard 
-                image="https://lh3.googleusercontent.com/aida-public/AB6AXuDX30Z8FO-hQNrHxxbuYFZvW0DIuHGnKHGMXYrHpAP5Pq7Dv2m51GWHS8XyAJzNtnPB0PV5jn5FCwxQ5s4IlG8bV5qgLG63nHgHTx-H2_CbmwMrm65ewJ9mK9xMxC9Bfj4kYEj3AGSsAV0YW85gxDy5eXCzcwqspUM_k2pfRnryviIX2rhVjMLjwgZZHylncVJS8rVOuQJaQR55p39fDA0LZe_FkJk4Wxy_XW_fkTM2dngSJ_CBRr6J-qCR4OsPF6J460frJsrObAoc"
-                name="Versatile Backpack"
-                price={"৳" + formatBDT(49.99)}
-              />
+              {sampleProducts.map((product) => (
+                <ProductCard 
+                  key={product.id}
+                  product={product}
+                  onAddToCart={addToCart}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -155,26 +117,13 @@ const ECommerceHome = () => {
           <div className="container">
             <h2 className="section-title">Popular Products</h2>
             <div className="products-scroll">
-              <ProductCard 
-                image="https://lh3.googleusercontent.com/aida-public/AB6AXuADDTiN0tK6ELZN7SNR8opRPOLV8XXS_57rIufIjU48GtCYDC0ElnURFF1ppNfNM_n9Y8kCBhx8RdTmNlTWq7VsHz92gPi7Bb2PAHqkEzMW09QZqeQX4a561J7DboPZ3GCOpm0vDYaoqUm7KiIderFOQTpqvZfY3n-xzUYpwf04NvBnep1zkEIHxI4KwHTlNUFNu_3emBjgqaKp8QGb0ZQQLi5ob8muF2NJxIY7BVj4UFrelm6JfcobQp_uKTZM0vf61rAWB8bP7DGW"
-                name="Gaming Console"
-                price={"৳" + formatBDT(499.99)}
-              />
-              <ProductCard 
-                image="https://lh3.googleusercontent.com/aida-public/AB6AXuD9T0OvNitNUHwvD6oSqahX0sDDX7boEkgIRw0EU_TKGCqAIzGpR1amZ6DRCCctZ_M2xJV-v56X5sGZ0O-DXKUpXbPBqg6CA0KX39A3o0Xo6bj0INUwrqTu3009JlA-nrpdPU9IV63Xiqa3qLQdYVIgmmBRVosuMiJAD8tT_x3IIU-opnZJRmlLpHHNdO7h8ZMoCceDqLn14yUcGBAtrad4syVGpaZUWwhnH9sxDKYAhq-zDqQzBaz08H_4THsxEBWp1uEQRSKBA5Z3"
-                name="Best-Selling Novel"
-                price={"৳" + formatBDT(15.99)}
-              />
-              <ProductCard 
-                image="https://lh3.googleusercontent.com/aida-public/AB6AXuDaSerfNRMFqcdN6hshe_Ik0QaHLmofLbM_E_ul3CKH-OAyRH4oTPvsPzXcNLWPXXiRjM0BFzCCRmaoZyb3H1ZAYfDlGRKRgF4Uhs7CvrEqtJenJVyy3PngGaecOgRlX5A2-TRNu6UuLoHci002v9YHzduHWvPcOVYv2cXWkLPAo7jwPMEWntJJv95mJifi_DEpIWkH4sUjN_XMQWixXliTPsK3fWuWDpTW3zsFCxcP_XDpEx0ucog4Sl3ill7AnDjA6IUsoKCBpaCZ"
-                name="Kitchen Knife Set"
-                price={"৳" + formatBDT(79.99)}
-              />
-              <ProductCard 
-                image="https://lh3.googleusercontent.com/aida-public/AB6AXuBUr-9SEW1V0G89X5rRMien6gXmf9nzMXnD_GjDrsMzaX-oq0WoMTwVDfzpoGULMBXmjXipspc7Uw9hCtOgr7hgGDjOH5vBTbXBA8RikPgRgMbhOFuBHBjNco9R8yeCuzaCymlIJM0Wl_VirlZnLS5AnwpUdV-d_8IZlX4eWQDsv6O1afBcQRt663bdfKELJqu6gmPJdXIo83BciIJpoAbR7kXE8stxspyOTKg37pxCqPeAsfssPFJS8hV_Wne6iSyvqnQrpO6Jk1-M"
-                name="Decorative Plant"
-                price={"৳" + formatBDT(24.99)}
-              />
+              {sampleProducts.map((product) => (
+                <ProductCard 
+                  key={`popular-${product.id}`}
+                  product={product}
+                  onAddToCart={addToCart}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -222,14 +171,24 @@ const ECommerceHome = () => {
 };
 
 // Product Card Component
-const ProductCard = ({ image, name, price }) => {
+const ProductCard = ({ product, onAddToCart }) => {
+  const navigate = useNavigate();
+  
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    onAddToCart({
+      ...product,
+      inStock: true
+    });
+  };
+  
   return (
-    <div className="product-card">
-      <div className="product-image" style={{backgroundImage: `url("${image}")`}}></div>
+    <div className="product-card" onClick={() => navigate(`/product-details/${product.id}`)}>
+      <div className="product-image" style={{backgroundImage: `url("${product.image}")`}}></div>
       <div className="product-info">
-        <h5>{name}</h5>
-        <p className="price">{price}</p>
-        <button className="btn btn-primary">Add to Cart</button>
+        <h5>{product.name}</h5>
+        <p className="price">৳{formatBDT(product.price)}</p>
+        <button className="btn btn-primary" onClick={handleAddToCart}>Add to Cart</button>
       </div>
     </div>
   );
@@ -237,8 +196,10 @@ const ProductCard = ({ image, name, price }) => {
 
 // Category Card Component
 const CategoryCard = ({ image, name }) => {
+  const navigate = useNavigate();
+  
   return (
-    <div className="category-card">
+    <div className="category-card" onClick={() => navigate('/ECommerceCategories')}>
       <div className="category-image" style={{backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url("${image}")`}}>
         <h5>{name}</h5>
       </div>

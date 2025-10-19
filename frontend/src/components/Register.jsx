@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './Register.css';
 
 const Register = () => {
@@ -9,9 +10,10 @@ const Register = () => {
     password: '',
     confirmPassword: ''
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,40 +23,62 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
+    setLoading(true);
+    setError('');
+
+    // Client-side validation
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match!");
+      setError("Passwords don't match!");
+      setLoading(false);
       return;
     }
-    console.log('Signup attempt:', formData);
-    // After successful registration, navigate to login
-    navigate('/login');
+
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long!");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const result = await register(formData);
+      if (result.success) {
+        // New users are created with user role by default, so redirect to user dashboard
+        navigate('/user-dashboard');
+      } else {
+        setError(result.message || 'Registration failed');
+      }
+    } catch (error) {
+      setError('An error occurred during registration');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
 
   const handleLoginClick = () => {
     navigate('/login');
   };
 
   return (
-    <div className="Register-container">
-      <div className="Register-card-wrapper">
-        <div className="card Register-card shadow-lg">
+    <div className="register-container">
+      <div className="register-card-wrapper">
+        <div className="card register-card shadow-lg">
           <div className="card-body">
             
             {/* Header */}
             <div className="mb-4">
-              <h1 className="Register-title">Create Your Account</h1>
+              <h1 className="register-title">Create Your Account</h1>
             </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error}
+              </div>
+            )}
 
             {/* Signup Form */}
             <form onSubmit={handleSubmit}>
@@ -62,13 +86,14 @@ const Register = () => {
                 <label htmlFor="name" className="form-label">Name</label>
                 <input
                   type="text"
-                  className="form-control Register-input"
+                  className="form-control register-input"
                   id="name"
                   name="name"
                   placeholder="Enter your name"
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
               </div>
 
@@ -76,66 +101,50 @@ const Register = () => {
                 <label htmlFor="email" className="form-label">Email</label>
                 <input
                   type="email"
-                  className="form-control Register-input"
+                  className="form-control register-input"
                   id="email"
                   name="email"
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
               </div>
 
               <div className="mb-3">
                 <label htmlFor="password" className="form-label">Password</label>
-                <div className="input-group">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    className="form-control Register-input password-input"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="btn password-toggle"
-                    onClick={togglePasswordVisibility}
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                  >
-                    <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
-                  </button>
-                </div>
+                <input
+                  type="password"
+                  className="form-control register-input"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password (min 8 characters)"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  minLength="8"
+                  disabled={loading}
+                />
               </div>
 
               <div className="mb-4">
                 <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                <div className="input-group">
-                  <input
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    className="form-control Register-input password-input"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Confirm your password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="btn password-toggle"
-                    onClick={toggleConfirmPasswordVisibility}
-                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-                  >
-                    <i className={`bi ${showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
-                  </button>
-                </div>
+                <input
+                  type="password"
+                  className="form-control register-input"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  disabled={loading}
+                />
               </div>
 
-              <button type="submit" className="btn Register-btn">
-                Create Account
+              <button type="submit" className="btn register-btn" disabled={loading}>
+                {loading ? 'Creating Account...' : 'Create Account'}
               </button>
             </form>
 
