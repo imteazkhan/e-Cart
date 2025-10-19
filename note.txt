@@ -1,0 +1,31 @@
+src/
+  components/
+    ECommerceHome.jsx
+    ECommerceProductListing.jsx
+    ProductDetails.jsx
+    ShoppingCart.jsx
+    Checkout.jsx
+    UserDashboard.jsx
+    AdminDashboard.jsx
+  App.jsx
+  main.jsx
+
+///////////////////////////////////////////////////////
+
+your-project/
+├── node_modules/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── ECommerceHome.jsx
+│   │   ├── ECommerceProductListing.jsx
+│   │   ├── ProductDetails.jsx
+│   │   ├── ShoppingCart.jsx
+│   │   ├── Checkout.jsx
+│   │   ├── UserDashboard.jsx
+│   │   └── AdminDashboard.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── package.json
+└── vite.config.js

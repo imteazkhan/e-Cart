@@ -1,0 +1,397 @@
+/* Custom Variables */
+:root {
+  --primary-color: #1193d4;
+  --primary-hover: #0d7bb8;
+  --background-light: #f6f7f8;
+  --background-dark: #101c22;
+  --text-dark: #0d171b;
+  --text-muted: #6b7280;
+  --input-bg-light: #f3f4f6;
+  --input-bg-dark: #101c22;
+  --border-light: #d1d5db;
+  --border-dark: #374151;
+  --card-bg-light: #ffffff;
+  --card-bg-dark: #1e2d35;
+}
+
+/* Base Styles */
+.Register-container {
+  font-family: 'Inter', sans-serif;
+  background: var(--background-light);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.Register-card-wrapper {
+  max-width: 28rem;
+  width: 100%;
+}
+
+/* Register Card */
+.Register-card {
+  border: none;
+  border-radius: 0.75rem;
+  background: var(--card-bg-light);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  margin: 0;
+}
+
+/* Typography */
+.Register-title {
+  color: var(--text-dark);
+  font-weight: 900;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.033em;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+@media (min-width: 576px) {
+  .Register-title {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .Register-title {
+    font-size: 2.25rem;
+  }
+}
+
+/* Form Elements */
+.form-label {
+  color: var(--text-dark);
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.Register-input {
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--input-bg-light);
+  padding: 1rem;
+  height: 3.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  color: var(--text-dark);
+  width: 100%;
+}
+
+.Register-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.Register-input:focus {
+  background-color: var(--input-bg-light);
+  box-shadow: 0 0 0 2px rgba(17, 147, 212, 0.5);
+  border: none;
+  outline: none;
+  color: var(--text-dark);
+}
+
+/* Password Input Group */
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.password-input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+  padding-right: 3rem;
+}
+
+.password-toggle {
+  background-color: var(--input-bg-light);
+  border: none;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  color: var(--text-muted);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  width: 3rem;
+  height: 3.5rem;
+}
+
+.password-toggle:hover {
+  background-color: #e5e7eb;
+  color: var(--primary-color);
+}
+
+.password-toggle:focus {
+  box-shadow: none;
+  background-color: var(--input-bg-light);
+}
+
+/* Register Button */
+.Register-btn {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  height: 3.5rem;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease-in-out;
+  letter-spacing: 0.015em;
+  width: 100%;
+}
+
+.Register-btn:hover {
+  background-color: var(--primary-hover);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.Register-btn:focus {
+  background-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(17, 147, 212, 0.5);
+}
+
+.Register-btn:active {
+  background-color: #0b6a9c;
+  transform: translateY(0);
+}
+
+/* Login Link */
+.login-link-text {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.login-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.login-link:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .Register-container {
+    background: var(--background-dark);
+  }
+
+  .Register-card {
+    background: var(--card-bg-dark);
+  }
+
+  .Register-title {
+    color: #ffffff;
+  }
+
+  .form-label {
+    color: #d1d5db;
+  }
+
+  .Register-input {
+    background-color: var(--input-bg-dark);
+    border: 1px solid var(--border-dark);
+    color: #ffffff;
+  }
+
+  .Register-input::placeholder {
+    color: #9ca3af;
+  }
+
+  .Register-input:focus {
+    background-color: var(--input-bg-dark);
+    border-color: var(--primary-color);
+    color: #ffffff;
+  }
+
+  .password-toggle {
+    background-color: var(--input-bg-dark);
+    border: 1px solid var(--border-dark);
+    border-left: none;
+    color: #9ca3af;
+  }
+
+  .password-toggle:hover {
+    background-color: #374151;
+    color: var(--primary-color);
+  }
+
+  .login-link-text {
+    color: #9ca3af;
+  }
+}
+
+/* Manual Dark Mode Class */
+body.dark-mode {
+  background: var(--background-dark);
+}
+
+body.dark-mode .Register-container {
+  background: var(--background-dark);
+}
+
+body.dark-mode .Register-card {
+  background: var(--card-bg-dark);
+}
+
+body.dark-mode .Register-title {
+  color: #ffffff;
+}
+
+body.dark-mode .form-label {
+  color: #d1d5db;
+}
+
+body.dark-mode .Register-input {
+  background-color: var(--input-bg-dark);
+  border: 1px solid var(--border-dark);
+  color: #ffffff;
+}
+
+body.dark-mode .Register-input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode .Register-input:focus {
+  background-color: var(--input-bg-dark);
+  border-color: var(--primary-color);
+  color: #ffffff;
+}
+
+body.dark-mode .password-toggle {
+  background-color: var(--input-bg-dark);
+  border: 1px solid var(--border-dark);
+  border-left: none;
+  color: #9ca3af;
+}
+
+body.dark-mode .password-toggle:hover {
+  background-color: #374151;
+  color: var(--primary-color);
+}
+
+body.dark-mode .login-link-text {
+  color: #9ca3af;
+}
+
+/* Responsive Design */
+@media (max-width: 575.98px) {
+  .Register-container {
+    padding: 0.5rem;
+  }
+
+  .Register-card {
+    padding: 1rem;
+  }
+
+  .Register-title {
+    font-size: 1.5rem;
+  }
+
+  .Register-input {
+    padding: 0.75rem;
+    height: 3rem;
+    font-size: 0.875rem;
+  }
+
+  .password-toggle {
+    padding: 0 0.75rem;
+    height: 3rem;
+    width: 2.5rem;
+  }
+
+  .Register-btn {
+    height: 3rem;
+    font-size: 0.875rem;
+    padding: 0.625rem 1rem;
+  }
+
+  .form-label {
+    font-size: 0.875rem;
+  }
+
+  .login-link-text {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 576px) {
+  .Register-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .Register-card {
+    padding: 2rem;
+  }
+
+  .Register-title {
+    font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .Register-card-wrapper {
+    max-width: 30rem;
+  }
+}
+
+/* Animation */
+.Register-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state */
+.Register-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.Register-btn:disabled:hover {
+  transform: none;
+}
+
+/* Password validation feedback */
+.password-feedback {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.password-valid {
+  color: #10b981;
+}
+
+.password-invalid {
+  color: #ef4444;
+}
